@@ -6,7 +6,7 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 16:17:55 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/01/24 19:34:45 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/01/24 19:44:18 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(void)
 	int		fd;
 	char	*filename;
 
-	filename = "Text.txt";
+	filename = "sprint1_Sample.txt";
 	fd = open (filename, O_RDONLY);
 	get_next_line(fd);
 	close (fd);
@@ -29,7 +29,7 @@ char	*get_next_line(int fd)
 	static t_line	*seek_new_line;
 	char			*buff_line;
 	ssize_t			res;
-	
+
 	res = 0;
 	buff_line = "start";
 	if (fd == 0)
