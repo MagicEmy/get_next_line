@@ -1,7 +1,7 @@
-123
-1234567890
-12345678901234567890
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
+A123456789101234567891012345678910
+B12345678910
+C
 
-In terms of scope and extent, static variables have extent the entire run of the program, but may have more limited scope. A basic distinction is between a static global variable, which has global scope and thus is in context throughout the program, and a static local variable, which has local scope. A static local variable is different from a local variable as a static local variable is initialized only once no matter how many times the function in which it resides is called and its value is retained and accessible through many calls to the function in which it is declared, e.g. to be used as a count variable. 
-A static variable may also have module scope or some variant, such as internal linkage in C, which is a form of file scope or module scope.
+D1234567891012345678910
+E12345678910
+F123456789101234567891012345678910
