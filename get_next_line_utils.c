@@ -6,7 +6,7 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/24 18:15:56 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/01/24 19:26:58 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/01/25 17:42:29 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,20 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 		d[dstsize - 1] = '\0';
 	}
 	return (len);
+}
+
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	const char	*s;
+	char		*d;
+
+	s = src;
+	d = dst;
+	if (src == dst)
+		return (NULL);
+	while (n--)
+	{
+		*d++ = *s++;
+	}
+	return (dst);
 }
