@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_next_line.c                                    :+:    :+:            */
+/*   get_next_line_test.c                               :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 16:17:55 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/01/26 19:28:57 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/01/26 19:53:39 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,7 @@ int	main(void)
 char	*get_next_line(int fd)
 {
 	static t_line	*seek_new_line;
-	char			*buff_line;
-	char			*test_line;
-	ssize_t			res;
 
-	res = 1;
-	buff_line = malloc(BUFFER_SIZE + 1);
-	buff_line[BUFFER_SIZE] = '\0';
-	test_line = malloc(BUFFER_SIZE + 1);
-	test_line[BUFFER_SIZE] = '\0';
 	if (fd == 0)
 	{
 		write (1, "File Error\n", 11);
@@ -46,16 +38,29 @@ char	*get_next_line(int fd)
 	seek_new_line = (t_line *)malloc(sizeof(t_line));
 	if (!seek_new_line)
 		return (NULL);
-	seek_new_line->fd = fd;
+	seek_new_line->fd = fd;//seek_new_line->offset = res;
+	building_line(fd);
+	return ("char *");
+}
+//printf("%s\n", test_line);
+
+char	*building_line(int fd)
+{
+	ssize_t			res;
+	char			*buff_line;
+	char			*test_line;
+
+	buff_line = malloc(BUFFER_SIZE + 1);
+	buff_line[BUFFER_SIZE] = '\0';
+	test_line = malloc(BUFFER_SIZE + 1);
+	test_line[BUFFER_SIZE] = '\0';
+	res = 1;
 	while (buff_line)
 	{
 		res = read(fd, buff_line, BUFFER_SIZE);
-		ft_strlcat(test_line, buff_line, sizeof(test_line));
-		seek_new_line->offset = res;
 		if (!res)
 			break ;
+		ft_strlcat(test_line, buff_line, sizeof(test_line));
 	}
 	write(1, test_line, ft_strlen(test_line));
-	return (test_line);
 }
-//printf("%s\n", test_line);
