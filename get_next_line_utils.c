@@ -6,28 +6,11 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/24 18:15:56 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/01/25 17:42:29 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/01/27 19:43:11 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-size_t	ft_strlcat(char *dst, const char *src, size_t dsize)
-{
-	size_t	d_len;
-	size_t	s_len;
-
-	d_len = ft_strlen(dst);
-	s_len = ft_strlen(src);
-	if (dsize < d_len)
-		return (dsize + s_len);
-	else
-	{
-		dst = dst + d_len;
-		ft_strlcpy(dst, src, dsize - d_len);
-		return (d_len + s_len);
-	}
-}
 
 size_t	ft_strlen(const char *s)
 {
@@ -41,39 +24,49 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+char	*ft_strdup(const char *s1)
 {
-	char		*d;
-	const char	*s;
-	size_t		len;
+	int		len;
+	int		i;
+	char	*dest;
 
-	d = dst;
-	s = src;
-	len = ft_strlen(s);
-	if (len + 1 < dstsize)
+	len = 0;
+	while (s1[len])
+		len++;
+	dest = (char *) malloc (sizeof(char) * (len + 1));
+	if (dest == NULL)
+		return (NULL);
+	i = 0;
+	while (s1[i] != '\0')
 	{
-		ft_memcpy(dst, src, len + 1);
+		dest[i] = s1[i];
+		i++;
 	}
-	else if (dstsize != 0)
-	{
-		ft_memcpy(dst, src, dstsize - 1);
-		d[dstsize - 1] = '\0';
-	}
-	return (len);
+	dest[i] = '\0';
+	return (dest);
 }
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+char	*ft_strjoin(char *s1, char const *s2)
 {
-	const char	*s;
-	char		*d;
+	size_t	s1_len;
+	size_t	s2_len;
+	size_t	total_len;
+	size_t	i;
+	char	*new_string;
 
-	s = src;
-	d = dst;
-	if (src == dst)
+	i = 0;
+	if (!s1 && !s2)
 		return (NULL);
-	while (n--)
-	{
-		*d++ = *s++;
-	}
-	return (dst);
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	total_len = s1_len + s2_len + 1;
+	new_string = (char *)malloc(sizeof(char) * total_len);
+	if (!new_string)
+		return (new_string);
+	while (*s1)
+		new_string[i++] = *s1++;
+	while (*s2)
+		new_string[i++] = *s2++;
+	new_string[i] = '\0';
+	return (new_string);
 }

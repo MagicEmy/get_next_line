@@ -6,7 +6,7 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 16:36:09 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/01/25 19:41:16 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/01/27 20:19:25 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ typedef struct s_line
 }t_line;
 
 char	*get_next_line(int fd);
-size_t	ft_strlcat(char *dst, const char *src, size_t dsize);
 size_t	ft_strlen(const char *s);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-void	*ft_memcpy(void *dst, const void *src, size_t n);
+char	*ft_strdup(const char *s1);
+char	*ft_strjoin(char *s1, char const *s2);
 #endif
