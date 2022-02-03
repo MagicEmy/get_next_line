@@ -6,7 +6,7 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/01 16:12:06 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/02/01 18:21:12 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/02/03 17:40:53 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
-int		check_where_newline(char const *buff, int c);
-char	*ft_strjoin(char *s1, char const *s2);
+int		check_where_newline(char *buff, int c);
+char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strdup(const char *s1);
-char	*ft_is_new_line(char const *buff);
+char	*ft_is_new_line(char *static_buff);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*read_the_buffer(int fd);
 #endif

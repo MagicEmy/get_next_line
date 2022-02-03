@@ -6,7 +6,7 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/01 16:13:10 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/02/01 18:43:44 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/02/03 18:42:44 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,48 @@
 
 char	*get_next_line(int fd)
 {
-	ssize_t	res;
-	char	*build_line;
-	char	*part_line;
-	char	buff_line[BUFFER_SIZE + 1];
-	int		nl_index;
+	char		*build_line;
+	static char	*buff_line;
 
-	nl_index = 0;
-	res = 1;
-	build_line = NULL;
-	part_line = NULL;
-	buff_line[BUFFER_SIZE] = '\0';
+	build_line = ft_strdup("");
+	buff_line = NULL;
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	while (res)
-	{
-		res = read(fd, buff_line, BUFFER_SIZE);
-		if (!res)
-			break ;
-		if (check_where_newline(buff_line, '\n') == -1)
-		{
-			if (!build_line)
-				build_line = ft_strdup(buff_line);// move after \n check =substr
-			build_line = ft_strjoin(build_line, buff_line);
-		}
-		else
-		{
-			part_line = ft_is_new_line(buff_line);
-			if (!build_line)
-				build_line = ft_strdup(part_line);
-			build_line = ft_strjoin(build_line, part_line);
-		}
-	}
-	write(1, build_line, ft_strlen(build_line));
+	buff_line = read_the_buffer(fd);
+	build_line = ft_strjoin(build_line, buff_line);
+	free (buff_line);
+	if (!build_line)
+		return (NULL);
 	return (build_line);
 }
 
-int	check_where_newline(char const *buff, int c)
+char	*read_the_buffer(int fd)
+{
+	ssize_t			res;
+	char			*r_line;
+	static char		static_buff[BUFFER_SIZE + 1];
+
+	res = 1;
+	r_line = ft_strdup("");
+	if (!r_line)
+		return (NULL);
+	while (res)
+	{
+		res = read(fd, static_buff, BUFFER_SIZE);
+		if (res == -1)
+		{
+			free(static_buff);
+			return (NULL);
+		}
+		if (check_where_newline(static_buff, '\n') == -1)
+			r_line = ft_strjoin(r_line, static_buff);
+		else
+			r_line = ft_is_new_line(static_buff);
+	}
+	return (r_line);
+}
+
+int	check_where_newline(char *buff, int c)
 {
 	int	i;
 
@@ -64,15 +69,26 @@ int	check_where_newline(char const *buff, int c)
 	return (i);
 }
 
-char	*ft_is_new_line(char const *buff)
+char	*ft_is_new_line(char *static_buff)
 {
 	unsigned int	index;
-	static char		*static_buff;
+	char			*temp;
 	char			*part;
+	int				i;
 
+	i = 0;
 	index = 0;
-	static_buff = ft_strdup(buff);
-	index = check_where_newline(static_buff, '\n');
-	part = ft_substr(buff, index + 1, ft_strlen(static_buff) - index);
+	temp = ft_strdup(static_buff);
+	index = check_where_newline(temp, '\n');
+	part = ft_substr(temp, 0, ft_strlen(temp) - index);
+	index++;
+	while (temp[index] != '\0')
+	{
+		static_buff[i] = temp[index];
+		index++;
+		i++;
+	}
+	static_buff[i] = '\0';
+	free (temp);
 	return (part);
 }
