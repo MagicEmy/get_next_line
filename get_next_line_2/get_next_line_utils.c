@@ -6,7 +6,7 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/01 16:14:41 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/02/02 16:56:11 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/02/04 19:56:44 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ char	*ft_strjoin(char *s1, char *s2)
 	char	*new_string;
 
 	i = 0;
-	//if (!s1 && !s2)
-	//	return (NULL);
+	if (!s1 && !s2)
+		return (NULL);
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);
 	total_len = s1_len + s2_len + 1;
@@ -49,51 +49,30 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (new_string);
 }
 
-char	*ft_strdup(const char *s1)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	int		len;
-	int		i;
-	char	*dest;
+	const char	*s;
+	char		*d;
+	const char	*temp_src;
+	char		*temp_dst;
+	size_t		max;
 
-	len = 0;
-	while (s1[len])
-		len++;
-	dest = (char *) malloc (sizeof(char) * (len + 1));
-	if (dest == NULL)
+	s = (char *)src;
+	d = (char *)dst;
+	max = len;
+	if (!src && !dst)
 		return (NULL);
-	i = 0;
-	while (s1[i] != '\0')
+	if (d < s)
 	{
-		dest[i] = s1[i];
-		i++;
+		while (max--)
+			*(d++) = *(s++);
 	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char			*string;
-	unsigned int	i;
-	size_t			j;
-
-	i = start;
-	if (!s)
-		return (NULL);
-	if (ft_strlen(s) <= start)
-		return (ft_strdup(""));
-	if (len > ft_strlen(s + start))
-		len = ft_strlen(s + start);
-	string = (char *)malloc(len + 1);
-	if (string == NULL)
-		return (string);
-	j = 0;
-	while (s[i] && j < len)
+	else
 	{
-		string[j] = s[i];
-		i++;
-		j++;
+		temp_src = s + (len - 1);
+		temp_dst = d + (len - 1);
+		while (max--)
+			*(temp_dst--) = *(temp_src--);
 	}
-	string[j] = '\0';
-	return (string);
+	return (dst);
 }
