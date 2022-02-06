@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_next_line.c                                    :+:    :+:            */
+/*   get_next.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/02/01 16:13:10 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/02/04 21:30:12 by emlicame      ########   odam.nl         */
+/*   Created: 2022/02/05 17:58:35 by emlicame      #+#    #+#                 */
+/*   Updated: 2022/02/06 21:10:10 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,41 +24,38 @@ char	*get_next_line(int fd)
 	if (!buff_line)
 		return (NULL);
 	buff_line[BUFFER_SIZE] = '\0';
-	build_line = (char *)malloc(1 * sizeof(char));
+	build_line = read_the_buffer(fd, buff_line);
 	if (!build_line)
 		return (NULL);
-	build_line[0] = '\0';
-	buff_line = read_the_buffer(fd, buff_line);
-	if (!build_line)
-		return (NULL);
-	build_line = ft_strjoin(build_line, buff_line);
+	buff_line = ft_update_buffer(buff_line);
 	return (build_line);
 }
 
 char	*read_the_buffer(int fd, char *buff_line)
 {
-	ssize_t	res;
-	char	*r_line;
-	int		x;
-//	char	*new_line;
+	char		*r_line;
+	char		*until_nl;
+	ssize_t		res;
+	int			x;
 
 	res = 1;
 	r_line = (char *)malloc((1) * sizeof(char));
 	if (!r_line)
 		return (NULL);
 	*r_line = '\0';
+	x = -1;
 	while (res)
 	{
 		res = read(fd, buff_line, BUFFER_SIZE);
-		if (res == -1)
-			return (NULL);
 		x = check_where_newline(buff_line, '\n');
-		if (x != -1)
+		if (x == -1)
+			r_line = ft_strjoin(r_line, buff_line);
+		else
+		{
+			until_nl = ft_substr(buff_line, 0, x + 1);
+			r_line = ft_strjoin(r_line, until_nl);
 			break ;
-		r_line = ft_strjoin(r_line, buff_line);
-		// 	new_line = ft_is_new_line(buff_line);
-		// 	r_line = ft_strjoin(r_line, new_line);
-		// 	free(new_line);		
+		}
 	}
 	return (r_line);
 }
@@ -77,34 +74,18 @@ int	check_where_newline(char *buff, int c)
 	return (i);
 }
 
-// // char	*ft_is_new_line(char *buff_line)
-// // {
-// // 	int		index;
-// // 	char	*temp;
-// // 	char	*part;
-// // 	int		i;
-// // 	int		z;
+char	*ft_update_buffer(char *buff_line)
+{
+	int		index;
+	int		len;
+	int		i;
+	char	*temp;
 
-// // 	i = 0;
-// // 	z = 0;
-// // 	index = 0;
-// // 	index = check_where_newline(buff_line, '\n');
-// // 	temp = (char *)malloc(index + 1 * sizeof(char));
-// // 	part = malloc ((index + 1) * sizeof(char));
-// // 	while (i < index)
-// // 	{
-// // 		temp[i] = buff_line[i];
-// // 		i++;
-// // 	}
-// // 	temp[index] = '\0';
-// // 	ft_memmove(part, temp, index);
-// // 	while (buff_line[z + index])
-// // 	{
-// // 		temp[z] = buff_line[z + index];
-// // 		z++;
-// // 	}
-// // 	temp[z] = '\0';
-// // 	ft_memmove(buff_line, temp, z);
-// // 	free (temp);
-// // 	return (part);
-// // }
+	i = 0;
+	index = check_where_newline(buff_line, '\n');
+	len = BUFFER_SIZE - (index + 1);
+	temp = ft_substr(buff_line, index, len + 1);
+	buff_line = ft_substr(temp, 0, len + 1);
+	free (temp);
+	return (buff_line);
+}
