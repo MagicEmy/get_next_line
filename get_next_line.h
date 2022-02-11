@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/01/18 16:36:09 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/01/28 19:44:09 by emlicame      ########   odam.nl         */
+/*   Created: 2022/02/01 16:12:06 by emlicame      #+#    #+#                 */
+/*   Updated: 2022/02/11 19:16:28 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,18 @@
 # include <fcntl.h>
 # include <stdlib.h>
 
-typedef struct s_line
-{
-	int		fd;
-	char	*static_buffer;
-	int		offset;
-}t_line;
+// typedef struct s_data
+// {
+// 	char	*buff_line;
+// 	char		*build_line;
+// 	int			fd;
+// }	t_data;
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
-char	*ft_strdup(const char *s1);
-char	*ft_strjoin(char *s1, char const *s2);
-char	*ft_make_line(char *build, char const *buff);
-int		check_where_newline(char const *buff, int c);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_substr(char const *s, size_t start, size_t len);
+char	*read_bytes(int fd, char *buff_line);
+int		check_where_newline(char *buff, int c);
+char	*if_new_line(char *build_line, char *buff_line);
 #endif

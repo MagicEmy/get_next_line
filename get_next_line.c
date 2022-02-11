@@ -5,76 +5,63 @@
 /*                                                     +:+                    */
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/01/18 16:17:55 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/01/28 19:53:26 by emlicame      ########   odam.nl         */
+/*   Created: 2022/02/05 17:58:35 by emlicame      #+#    #+#                 */
+/*   Updated: 2022/02/11 19:28:20 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	main(void)
-{
-	int		fd;
-	int		i;
-	char	*filename;
-
-	i = 0;
-	filename = "Text.txt";
-	fd = open (filename, O_RDONLY);
-	get_next_line(fd);
-	close (fd);
-	return (0);
-}
-
 char	*get_next_line(int fd)
 {
-	ssize_t			res;
-	char			buff_line[BUFFER_SIZE + 1];
-	static t_line	seek_new_line;
-	char			*build_line;
-	int				x;
+	static char	*buff_line;
+	char		*build_line;
 
+	if (fd < 0 || BUFFER_SIZE < 1)
+		return (NULL);
+	if (!buff_line)
+		buff_line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buff_line)
+		return (NULL);
 	buff_line[BUFFER_SIZE] = '\0';
-	seek_new_line.fd = fd;
-	res = 1;
-	x = 0;
-	while (res)
-	{
-		res = read(fd, buff_line, BUFFER_SIZE);
-		if (!res)
-			break ;
-		if (!build_line)
-			build_line = ft_strdup(buff_line);
-		else
-		{
-			x = check_where_newline(buff_line, '\n');
-			printf ("%d", x++);
-			build_line = ft_make_line(build_line, buff_line);
-		}
-	}
-	write(1, build_line, ft_strlen(build_line));
+	build_line = read_bytes(fd, buff_line);
 	return (build_line);
 }
 
-char	*ft_make_line(char *build, char const *buff)
+char	*read_bytes(int fd, char *buff_line)
 {
-	char	*temp_line;
+	int			x;
+	ssize_t		res;
+	char		*r_line;
+	char		*until_nl;
+	ssize_t		len;
 
-	temp_line = ft_strjoin(build, buff);
-	build = ft_strdup(temp_line);
-	return (build);
-}
-
-int	check_where_newline(char const *buff, int c)
-{
-	int	i;
-
-	i = 0;
-	while (buff[i] != c)
+	res = 1;
+	len = ft_strlen(buff_line);
+	r_line = (char *)malloc(len + 1 * sizeof(char));
+	if (!r_line)
+		return (NULL);
+	r_line = ft_strjoin(r_line, buff_line);
+	x = check_where_newline(buff_line, '\n');
+	x = -1;
+	while (res && x == -1)
 	{
-		if (i == '\0')
-			return (0);
-		i++;
+		res = read(fd, buff_line, BUFFER_SIZE);
+		buff_line[res] = 0;
+		x = check_where_newline(buff_line, '\n');
+		r_line = ft_strjoin(r_line, buff_line);
 	}
-	return (i);
+	if (x != -1)
+	{
+		until_nl = ft_substr(buff_line, 0, x + 1);
+		r_line = ft_strjoin(r_line, until_nl);
+		buff_line = ft_substr(buff_line, x + 2, BUFFER_SIZE - (x + 2));
+		free (until_nl);
+	}
+	return (r_line);
 }
+
+// char	*if_new_line(char *build_line, char *buff_line)
+// {
+	
+// }
