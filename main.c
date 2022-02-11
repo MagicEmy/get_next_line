@@ -18,7 +18,7 @@ int	main(void)
 	char	*filename;
 	char	*new_line = (char *)0X1000;
 
-	filename = "Text";
+	filename = "Text.txt";
 	fd = open (filename, O_RDONLY);
 	new_line = get_next_line(fd);
 	printf ("%s", new_line);

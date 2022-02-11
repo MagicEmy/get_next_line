@@ -23,7 +23,7 @@ char	*get_next_line(int fd)
 		buff_line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buff_line)
 		return (NULL);
-	buff_line[BUFFER_SIZE] = '\0';
+	buff_line[0] = '\0';
 	build_line = read_bytes(fd, buff_line);
 	return (build_line);
 }
@@ -33,19 +33,18 @@ char	*read_bytes(int fd, char *buff_line)
 	int			x;
 	ssize_t		res;
 	char		*r_line;
-	char		*until_nl;
-	ssize_t		len;
+	size_t		len;
 
 	res = 1;
 	len = ft_strlen(buff_line);
-	r_line = (char *)malloc(len + 1 * sizeof(char));
+	r_line = (char *)malloc(1 * sizeof(char));
 	if (!r_line)
 		return (NULL);
 	x = check_where_newline(buff_line, '\n');
-	if (new in buffer)
+	if (x != -1)
 	{
-		r_line = call function that does all this 
-		return (r_line)
+		r_line = if_new_line(r_line, buff_line);
+		return (r_line);
 	}
 	r_line = ft_strjoin(r_line, buff_line);
 	x = -1;
@@ -56,17 +55,20 @@ char	*read_bytes(int fd, char *buff_line)
 		x = check_where_newline(buff_line, '\n');
 		r_line = ft_strjoin(r_line, buff_line);
 	}
-	if (x != -1)
-	{
-		r_line if_new_line(char *build_line, char *buff_line);
-	}
+	// if (x != -1)
+	// 	r_line = if_new_line(r_line, buff_line);
 	return (r_line);
 }
 
-// char	*if_new_line(char *build_line, char *buff_line)
-// {
+char	*if_new_line(char *r_line, char *buff_line)
+{
+	char	*until_nl;
+	int		x;
+
+	x = check_where_newline(buff_line, '\n');
 	until_nl = ft_substr(buff_line, 0, x + 1);
-		r_line = ft_strjoin(r_line, until_nl);
-		buff_line = ft_substr(buff_line, x + 2, BUFFER_SIZE - (x + 2));
-		free (until_nl);
-// }
+	r_line = ft_strjoin(r_line, until_nl);
+	buff_line = ft_substr(buff_line, x + 2, BUFFER_SIZE - (x + 2));
+	free (until_nl);
+	return (r_line);
+}
