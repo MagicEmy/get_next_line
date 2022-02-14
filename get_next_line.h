@@ -6,7 +6,7 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/01 16:12:06 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/02/11 19:16:28 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/02/14 21:02:31 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 // typedef struct s_data
 // {
 // 	char	*buff_line;
-// 	char		*build_line;
-// 	int			fd;
+// 	char	*build_line;
+// 	int		fd;
 // }	t_data;
 
 char	*get_next_line(int fd);
@@ -37,5 +37,7 @@ char	*ft_strjoin(char *s1, char *s2);
 char	*ft_substr(char const *s, size_t start, size_t len);
 char	*read_bytes(int fd, char *buff_line);
 int		check_where_newline(char *buff, int c);
-char	*if_new_line(char *build_line, char *buff_line);
+char	*if_new_line(char *r_line, char *buff_line);
+char	*check_data(char *r_line, char *buff_line);
+char	*check_data_in_buffer(char *build_line, char *buff_line);
 #endif
