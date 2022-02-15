@@ -6,7 +6,7 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/05 17:58:35 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/02/14 20:52:51 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/02/12 20:29:57 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_next_line(int fd)
 	build_line = read_bytes(fd, buff_line);
 	if (!build_line)
 		return (NULL);
-	//buff_line = check_data_in_buffer(build_line, buff_line);
+	build_line = check_data_in_buffer(build_line, buff_line);
 	return (build_line);
 }
 
@@ -38,9 +38,10 @@ char	*read_bytes(int fd, char *buff_line)
 	char		*r_line;
 
 	res = 1;
-	r_line = (char *)malloc(1 * sizeof(char));
+	r_line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!r_line)
 		return (NULL);
+	r_line[0] = '\0';
 	x = check_where_newline(buff_line, '\n');
 	while (res && x == -1)
 	{
@@ -73,6 +74,32 @@ char	*if_new_line(char *r_line, char *buff_line)
 	until_nl = ft_substr(buff_line, 0, x + 2);
 	r_line = ft_strjoin(r_line, until_nl);
 	buff_line = ft_substr(buff_line, x + 2, BUFFER_SIZE - (x + 2));
+	if (!buff_line[0])
+	{
+		free (buff_line);
+		buff_line = NULL;
+	}
 	free (until_nl);
 	return (r_line);
+}
+
+char	*check_data_in_buffer(char *build_line, char *buff_line)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (build_line[i] && build_line[i] != '\n')
+		i++;
+	if (!build_line[i])
+	{
+		free (buff_line);
+		return (build_line);
+	}
+	i++;
+	while (build_line [i])
+		buff_line[j++] = build_line[i++];
+	buff_line[j] = '\0';
+	return (build_line);
 }
