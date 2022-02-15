@@ -65,24 +65,6 @@ char	*read_bytes(int fd, char *buff_line)
 	return (r_line);
 }
 
-char	*if_new_line(char *r_line, char *buff_line)
-{
-	char	*until_nl;
-	int		x;
-
-	x = check_where_newline(buff_line, '\n');
-	until_nl = ft_substr(buff_line, 0, x + 2);
-	r_line = ft_strjoin(r_line, until_nl);
-	buff_line = ft_substr(buff_line, x + 2, BUFFER_SIZE - (x + 2));
-	if (!buff_line[0])
-	{
-		free (buff_line);
-		buff_line = NULL;
-	}
-	free (until_nl);
-	return (r_line);
-}
-
 char	*check_data_in_buffer(char *build_line, char *buff_line)
 {
 	int	i;
