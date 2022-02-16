@@ -6,7 +6,7 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/05 17:58:35 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/02/16 20:10:42 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/02/16 20:55:52 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,8 @@ char	*check_data_in_buffer(char *line, char *buff_line)
 	int		p;
 	char	*s;
 
-	i = 0;
 	j = 0;
-	while (line[i] && line[i] != '\n')
-		i++;
-	if (line[i] == '\n')
-		i++;
+	i = new_line_index(line);
 	s = malloc(i + 1);
 	if (!s)
 		return (NULL);
@@ -94,10 +90,14 @@ char	*check_data_in_buffer(char *line, char *buff_line)
 	return (s);
 }
 
-void	free_mem(char *str)
+int	new_line_index(char *line)
 {
-	// if (str[0] == '\0')
-	// 	str[0] = 'Y';
-	free (str);
-	str = NULL;
+	int	i;
+
+	i = 0;
+	while (line[i] && line[i] != '\n')
+		i++;
+	if (line[i] == '\n')
+		i++;
+	return (i);
 }

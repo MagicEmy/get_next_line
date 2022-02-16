@@ -6,7 +6,7 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/01 16:12:06 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/02/16 17:18:44 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/02/16 20:23:43 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ char	*read_bytes(int fd, char *buff_line);
 int		check_where_newline(char *buff, int c);
 char	*check_data_in_buffer(char *build_line, char *buff_line);
 void	free_mem(char *str);
+int		new_line_index(char *line);
 
 #endif

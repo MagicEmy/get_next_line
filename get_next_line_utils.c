@@ -6,7 +6,7 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/01 16:14:41 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/02/16 18:29:56 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/02/16 20:56:05 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,10 @@ int	check_where_newline(char *buff, int c)
 		i++;
 	}
 	return (i);
+}
+
+void	free_mem(char *str)
+{
+	free (str);
+	str = NULL;
 }

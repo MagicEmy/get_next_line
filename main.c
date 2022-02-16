@@ -6,7 +6,7 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/01 16:15:03 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/02/16 19:33:13 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/02/16 21:12:58 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ int	main(void)
 		free (new_line);
 	}
 	close (fd);
-//	system ("leaks a.out");
+	system ("leaks a.out");
 	return (0);
 }
