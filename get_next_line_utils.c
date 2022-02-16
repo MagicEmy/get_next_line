@@ -6,7 +6,7 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/01 16:14:41 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/02/12 18:13:42 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/02/16 18:29:56 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *s)
 	size_t	len;
 
 	len = 0;
-	while (s[len] != '\0')
+	while (s[len])
 	{
 		len++;
 	}
@@ -26,54 +26,26 @@ size_t	ft_strlen(const char *s)
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	size_t	s1_len;
-	size_t	s2_len;
+	size_t	x;
 	size_t	total_len;
 	size_t	i;
 	char	*new_string;
 
 	i = 0;
+	x = 0;
 	if (!s1 && !s2)
 		return (NULL);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	total_len = s1_len + s2_len + 1;
+	total_len = ft_strlen(s1) + ft_strlen(s2) + 1;
 	new_string = (char *)malloc(sizeof(char) * total_len);
 	if (!new_string)
 		return (new_string);
-	while (*s1)
-		new_string[i++] = *s1++;
+	while (s1[x])
+		new_string[i++] = s1[x++];
 	while (*s2)
 		new_string[i++] = *s2++;
+	free(s1);
 	new_string[i] = '\0';
 	return (new_string);
-}
-
-char	*ft_substr(char const *s, size_t start, size_t len)
-{
-	char	*string;
-	size_t	i;
-	size_t	j;
-
-	i = start;
-	if (!s)
-		return (NULL);
-	if (ft_strlen(s) <= start)
-		return (NULL);
-	if (len > ft_strlen(s + start))
-		len = ft_strlen(s + start);
-	string = (char *)malloc(len + 1);
-	if (string == NULL)
-		return (string);
-	j = 0;
-	while (s[i] && j < len)
-	{
-		string[j] = s[i];
-		i++;
-		j++;
-	}
-	string[j] = '\0';
-	return (string);
 }
 
 int	check_where_newline(char *buff, int c)

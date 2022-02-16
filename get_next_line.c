@@ -6,7 +6,7 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/05 17:58:35 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/02/12 20:29:57 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/02/16 20:10:42 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,24 @@
 char	*get_next_line(int fd)
 {
 	static char	*buff_line;
-	char		*build_line;
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	if (!buff_line)
+	{
 		buff_line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+		buff_line[0] = '\0';
+	}
 	if (!buff_line)
 		return (NULL);
-	buff_line[0] = '\0';
-	build_line = read_bytes(fd, buff_line);
-	if (!build_line)
+	line = read_bytes(fd, buff_line);
+	if (!line)
 		return (NULL);
-	build_line = check_data_in_buffer(build_line, buff_line);
-	return (build_line);
+	line = check_data_in_buffer(line, buff_line);
+	if (!line)
+		return (NULL);
+	return (line);
 }
 
 char	*read_bytes(int fd, char *buff_line)
@@ -38,50 +42,62 @@ char	*read_bytes(int fd, char *buff_line)
 	char		*r_line;
 
 	res = 1;
-	r_line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	r_line = (char *)malloc(1 * sizeof(char));
 	if (!r_line)
 		return (NULL);
 	r_line[0] = '\0';
-	x = check_where_newline(buff_line, '\n');
+	r_line = ft_strjoin(r_line, buff_line);
+	x = check_where_newline(r_line, '\n');
 	while (res && x == -1)
 	{
 		res = read(fd, buff_line, BUFFER_SIZE);
-		if (res < 0)
+		buff_line[res] = '\0';
+		if (res <= 0 && !r_line[0])
 		{
-			free (buff_line);
-			buff_line = NULL;
-			return (0);
+			free_mem(buff_line);
+			free_mem(r_line);
+			return (NULL);
 		}
-		buff_line[res] = 0;
 		r_line = ft_strjoin(r_line, buff_line);
 		x = check_where_newline(buff_line, '\n');
-	}
-	if (r_line[0] == '\0')
-	{
-		free (r_line);
-		r_line = NULL;
-		return (0);
 	}
 	return (r_line);
 }
 
-char	*check_data_in_buffer(char *build_line, char *buff_line)
+char	*check_data_in_buffer(char *line, char *buff_line)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	int		p;
+	char	*s;
 
 	i = 0;
 	j = 0;
-	while (build_line[i] && build_line[i] != '\n')
+	while (line[i] && line[i] != '\n')
 		i++;
-	if (!build_line[i])
+	if (line[i] == '\n')
+		i++;
+	s = malloc(i + 1);
+	if (!s)
+		return (NULL);
+	p = 0;
+	while (line[p])
 	{
-		free (buff_line);
-		return (build_line);
+		if (p >= i)
+			*buff_line++ = line[p++];
+		else
+			s[j++] = line[p++];
 	}
-	i++;
-	while (build_line [i])
-		buff_line[j++] = build_line[i++];
-	buff_line[j] = '\0';
-	return (build_line);
+	s[i] = '\0';
+	*buff_line = '\0';
+	free(line);
+	return (s);
+}
+
+void	free_mem(char *str)
+{
+	// if (str[0] == '\0')
+	// 	str[0] = 'Y';
+	free (str);
+	str = NULL;
 }
