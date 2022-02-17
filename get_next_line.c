@@ -6,7 +6,7 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/05 17:58:35 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/02/16 20:55:52 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/02/12 20:29:57 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*get_next_line(int fd)
 	static char	*buff_line;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE < 1)
+	if (read (fd, NULL, 0) < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	if (!buff_line)
 	{
@@ -32,6 +32,7 @@ char	*get_next_line(int fd)
 	line = check_data_in_buffer(line, buff_line);
 	if (!line)
 		return (NULL);
+	free_mem (buff_line);
 	return (line);
 }
 
@@ -51,13 +52,13 @@ char	*read_bytes(int fd, char *buff_line)
 	while (res && x == -1)
 	{
 		res = read(fd, buff_line, BUFFER_SIZE);
-		buff_line[res] = '\0';
-		if (res <= 0 && !r_line[0])
+		if (res == 0 && !r_line[0])
 		{
 			free_mem(buff_line);
 			free_mem(r_line);
 			return (NULL);
 		}
+		buff_line[res] = '\0';
 		r_line = ft_strjoin(r_line, buff_line);
 		x = check_where_newline(buff_line, '\n');
 	}
