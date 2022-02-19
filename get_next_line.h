@@ -6,10 +6,9 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/01 16:12:06 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/02/11 19:16:28 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/02/16 20:23:43 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
@@ -19,9 +18,18 @@
 # endif
 
 # include <unistd.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
-# include <stdio.h>
+
+// typedef struct s_data
+// {
+// 	char	*buff_line;
+// 	char	*build_line;
+// 	int		fd;
+// }	t_data;
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);

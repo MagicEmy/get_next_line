@@ -6,7 +6,7 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/01 16:15:03 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/02/09 19:01:59 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/02/19 19:01:30 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ int	main(void)
 	fd = open (filename, O_RDONLY);
 	// new_line = get_next_line(fd);
 	// printf ("%s", new_line);
+	// free (new_line);
 	// new_line = get_next_line(fd);
 	// printf ("%s", new_line);
+	// free (new_line);
 	// new_line = get_next_line(fd);
 	// printf ("%s", new_line);
 	// new_line = get_next_line(fd);
@@ -35,6 +37,6 @@ int	main(void)
 		free (new_line);
 	}
 	close (fd);
-//	system ("leaks a.out");
+	system ("leaks a.out");
 	return (0);
 }
