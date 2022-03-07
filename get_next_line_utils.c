@@ -6,11 +6,12 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/01 16:14:41 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/02/19 18:59:23 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/03/07 16:05:35 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include <string.h>
+#include <stdlib.h>
 
 size_t	ft_strlen(const char *s)
 {

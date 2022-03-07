@@ -6,7 +6,7 @@
 /*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/05 17:58:35 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/02/19 19:00:57 by emlicame      ########   odam.nl         */
+/*   Updated: 2022/03/07 15:58:18 by emlicame      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	new_line_index(char *line)
 	return (i);
 }
 
-char	*check_data_in_buffer(char *line, char *buff_line)
+char	*check_data_in_buffer(char *line, char *static_buff)
 {
 	int		i;
 	int		j;
@@ -40,72 +40,72 @@ char	*check_data_in_buffer(char *line, char *buff_line)
 	while (line[p])
 	{
 		if (p >= i)
-			*buff_line++ = line[p++];
+			*static_buff++ = line[p++];
 		else
 			s[j++] = line[p++];
 	}
 	s[i] = '\0';
-	*buff_line = '\0';
+	*static_buff = '\0';
 	free(line);
 	return (s);
 }
 
-char	*test(char **s1, char **s2)
+char	*free_mem(char **s1, char **s2)
 {
 	free(*s1);
 	free(*s2);
 	return (NULL);
 }
 
-char	*read_bytes(int fd, char *buff_line)
+char	*read_bytes(int fd, char *read_buff)
 {
 	int			x;
 	ssize_t		res;
-	char		*r_line;
+	char		*ret_line;
 
 	res = 1;
-	r_line = (char *)malloc(1 * sizeof(char));
-	if (!r_line)
+	ret_line = (char *)malloc(1 * sizeof(char));
+	if (!ret_line)
 		return (NULL);
-	r_line[0] = '\0';
-	r_line = ft_strjoin(r_line, buff_line);
-	x = check_where_newline(r_line, '\n');
+	ret_line[0] = '\0';
+	ret_line = ft_strjoin(ret_line, read_buff);
+	x = check_where_newline(ret_line, '\n');
 	while (res && x == -1)
 	{
-		res = read(fd, buff_line, BUFFER_SIZE);
+		res = read(fd, read_buff, BUFFER_SIZE);
 		if (res >= 0)
 		{
-			buff_line[res] = '\0';
-			r_line = ft_strjoin(r_line, buff_line);
-			x = check_where_newline(buff_line, '\n');
+			read_buff[res] = '\0';
+			ret_line = ft_strjoin(ret_line, read_buff);
+			x = check_where_newline(read_buff, '\n');
 		}
-		if (res <= 0 && !r_line[0])
-			return (test(&buff_line, &r_line));
+		if (res <= 0 && !ret_line[0])
+			return (free_mem(&read_buff, &ret_line));
 	}
-	return (r_line);
+	return (ret_line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buff_line;
+	static char	*static_buff;
 	char		*line;
 
 	if (read(fd, NULL, 0) == -1 || BUFFER_SIZE < 1)
 		return (NULL);
-	if (!buff_line)
+	if (!static_buff)
 	{
-		buff_line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-		buff_line[0] = '\0';
+		static_buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+		static_buff[0] = '\0';
 	}
-	if (!buff_line)
+	if (!static_buff)
 		return (NULL);
-	line = read_bytes(fd, buff_line);
+	line = read_bytes(fd, static_buff);
 	if (!line)
 	{
-		buff_line = NULL;
+		static_buff = NULL;
 		return (NULL);
 	}
-	line = check_data_in_buffer(line, buff_line);
+	line = check_data_in_buffer(line, static_buff);
 	if (!line)
 		return (NULL);
 	return (line);
