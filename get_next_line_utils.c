@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   get_next_line_utils.c                              :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/02/01 16:14:41 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/03/07 16:05:35 by emlicame      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emlicame <emlicame@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/01 16:14:41 by emlicame          #+#    #+#             */
+/*   Updated: 2023/01/05 12:04:46 by emlicame         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*gnl_ft_strjoin_free(char *s1, char *s2)
 {
 	size_t	x;
 	size_t	total_len;

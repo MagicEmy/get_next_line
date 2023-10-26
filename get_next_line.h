@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   get_next_line.h                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: emlicame <emlicame@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/02/01 16:12:06 by emlicame      #+#    #+#                 */
-/*   Updated: 2022/03/07 16:09:20 by emlicame      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emlicame <emlicame@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/01 16:12:06 by emlicame          #+#    #+#             */
+/*   Updated: 2023/01/05 12:05:18 by emlicame         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
-char	*ft_strjoin(char *s1, char *s2);
+char	*gnl_ft_strjoin_free(char *s1, char *s2);
 int		check_where_newline(char *buff, int c);
 #endif
